@@ -22,7 +22,7 @@
 
 1. 複製專案
 ```bash
-git clone [repository-url]
+git clone https://github.com/MoneyDemo/20250329-Coding-Angel
 cd luncheat
 ```
 
