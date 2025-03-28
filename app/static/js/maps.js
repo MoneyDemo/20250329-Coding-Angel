@@ -24,7 +24,8 @@ function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
             center: defaultCenter,
-            styles: getMapStyles(localStorage.getItem('theme') || 'light')
+            styles: getMapStyles(localStorage.getItem('theme') || 'light'),
+            language: 'zh-TW' // 設定為繁體中文
         });
 
         // 初始化 Places 服務
@@ -75,7 +76,8 @@ async function searchNearbyRestaurants(address, type, radius) {
             location: location,
             radius: radius,
             type: 'restaurant',
-            keyword: type || ''
+            keyword: type || '',
+            language: 'zh-TW'  // 設定為繁體中文
         };
         
         // 返回 Promise 以便使用 async/await
@@ -109,6 +111,7 @@ async function searchNearbyRestaurants(address, type, radius) {
 async function getPlaceDetails(placeId) {
     const request = {
         placeId: placeId,
+        language: 'zh-TW',  // 設定為繁體中文
         fields: ['name', 'formatted_address', 'formatted_phone_number', 
                 'rating', 'reviews', 'website', 'opening_hours', 'price_level']
     };
@@ -127,7 +130,10 @@ async function getPlaceDetails(placeId) {
 // 將地址轉換為座標
 async function geocodeAddress(address) {
     return new Promise((resolve, reject) => {
-        geocoder.geocode({ address: address }, (results, status) => {
+        geocoder.geocode({ 
+            address: address,
+            language: 'zh-TW'  // 設定為繁體中文
+        }, (results, status) => {
             if (status === google.maps.GeocoderStatus.OK) {
                 resolve(results[0].geometry.location);
             } else {

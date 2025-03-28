@@ -111,7 +111,7 @@
     window.googleMapsApiKey = "{{ config.GOOGLE_MAPS_API_KEY }}";
 </script>
 <!-- Google Maps JavaScript API -->
-<script src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places&language=zh-TW&callback=initMap" async defer></script>
 <!-- 地圖處理 JavaScript -->
 <script src="{{ url_for('static', filename='js/maps.js') }}"></script>
 <!-- 主要功能 JavaScript -->
