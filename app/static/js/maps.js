@@ -8,6 +8,13 @@ let geocoder;
 // 初始化地圖
 function initMap() {
     console.log('開始初始化地圖...');
+    
+    // 确保即使在地图加载失败时也会触发事件
+    window.setTimeout(() => {
+        const event = new CustomEvent('mapInitialized');
+        window.dispatchEvent(event);
+    }, 1000);
+    
     try {
         // 預設以台北市為中心
         const defaultCenter = { lat: 25.0330, lng: 121.5654 };
@@ -25,15 +32,8 @@ function initMap() {
         // 初始化地理編碼服務
         geocoder = new google.maps.Geocoder();
         
-        // 確保所有服務都已初始化後再觸發事件
-        if (map && placesService && geocoder) {
-            console.log('地圖初始化完成，觸發事件...');
-            // 使用 CustomEvent 來觸發初始化完成事件
-            const event = new CustomEvent('mapInitialized');
-            window.dispatchEvent(event);
-        } else {
-            throw new Error('Google Maps 服務初始化失敗');
-        }
+        console.log('地圖初始化完成');
+        
     } catch (error) {
         console.error('地圖初始化失敗:', error);
         showError('地圖載入失敗，請重新整理頁面');
