@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吃什麼？ - 尋找附近美食的好幫手</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- 自定義 CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- 網站圖標 -->
+    <link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-utensils me-2"></i>吃什麼？</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#map-view">地圖檢視</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">關於我們</a>
+                    </li>
+                    <!-- 深色/淺色模式切換按鈕 -->
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-sm nav-link">
+                            <i id="theme-icon" class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main>
+        <!-- 首頁區域 -->
+        <section id="home" class="container mt-5 pt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="text-center mb-5 animate__animated animate__fadeIn">
+                        <h1 class="display-4 fw-bold">肚子餓了？讓我們幫你找美食！</h1>
+                        <p class="lead">輸入您的地址，探索附近的美食選擇</p>
+                    </div>
+
+                    <!-- 搜尋表單 -->
+                    <div class="card search-card shadow mb-5">
+                        <div class="card-body p-4">
+                            <form id="search-form">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="address" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>您的地址</label>
+                                        <input type="text" class="form-control form-control-lg" id="address" placeholder="輸入您的地址...">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cuisine-type" class="form-label"><i class="fas fa-hamburger me-2"></i>餐廳類型</label>
+                                        <select class="form-select form-select-lg" id="cuisine-type">
+                                            <option value="">所有類型</option>
+                                            <option value="中式">中式</option>
+                                            <option value="日式">日式</option>
+                                            <option value="義式">義式</option>
+                                            <option value="韓式">韓式</option>
+                                            <option value="美式">美式</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="search-radius" class="form-label"><i class="fas fa-ruler me-2"></i>搜尋範圍</label>
+                                        <select class="form-select form-select-lg" id="search-radius">
+                                            <option value="500" selected>500公尺</option>
+                                            <option value="1000">1公里</option>
+                                            <option value="2000">2公里</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5"><i class="fas fa-search me-2"></i>搜尋餐廳</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 載入中動畫 -->
+                    <div id="loading" class="text-center d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">載入中...</span>
+                        </div>
+                        <p>正在尋找附近餐廳...</p>
+                    </div>
+
+                    <!-- 搜尋結果區域 -->
+                    <div id="results-container" class="mb-5 d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2><i class="fas fa-list me-2"></i>搜尋結果</h2>
+                            <button id="random-pick-btn" class="btn btn-success"><i class="fas fa-random me-2"></i>隨機選擇</button>
+                        </div>
+                        
+                        <!-- 餐廳列表 -->
+                        <div id="restaurant-list" class="row row-cols-1 row-cols-md-2 g-4"></div>
+                        
+                        <!-- 無結果顯示 -->
+                        <div id="no-results" class="text-center py-5 d-none">
+                            <i class="fas fa-frown fa-3x mb-3"></i>
+                            <h3>抱歉，沒有找到符合條件的餐廳</h3>
+                            <p>請嘗試更改搜尋條件或擴大搜尋範圍</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 地圖檢視區域 -->
+        <section id="map-view" class="container-fluid d-none">
+            <div class="row">
+                <div class="col-md-4 col-lg-3 p-0" id="map-sidebar">
+                    <div class="p-3 sticky-top">
+                        <h3><i class="fas fa-store me-2"></i>附近餐廳</h3>
+                        <div id="map-list" class="list-group"></div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-9 p-0">
+                    <div id="map" class="map-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 關於區域 -->
+        <section id="about" class="container my-5 py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h2 class="mb-4"><i class="fas fa-info-circle me-2"></i>關於吃什麼？</h2>
+                    <p class="lead">「吃什麼？」是一個幫助您解決用餐選擇困難的平台。</p>
+                    <p>有時候我們會為了決定今天吃什麼而浪費太多時間，這個網站就是為了解決這個問題而生！只需輸入您的地址，我們將幫您找出附近的美食選擇，甚至可以為您隨機推薦一個餐廳，讓您告別選擇困難症。</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button class="btn btn-outline-primary btn-lg"><i class="fab fa-facebook me-2"></i>分享</button>
+                        <button class="btn btn-outline-primary btn-lg"><i class="fas fa-envelope me-2"></i>聯絡我們</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer py-4">
+        <div class="container text-center">
+            <p>© 2025 吃什麼？ - 尋找附近美食的好幫手</p>
+            <p><small>使用 Google Maps API 提供地理資訊服務</small></p>
+        </div>
+    </footer>
+
+    <!-- 隨機推薦的彈出視窗 -->
+    <div class="modal fade" id="randomPickModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-gift me-2"></i>今天就吃這家！</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="random-pick-result"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" id="pick-again-btn">再抽一次</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 自定義 JS -->
+    <script src="js/main.js"></script>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5AGXVpXTTulnP15SkiS9wvtNKzo4kvAk&libraries=places&callback=initMap&language=zh-TW" defer></script>
+</body>
+</html>

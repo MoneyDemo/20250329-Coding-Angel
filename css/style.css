@@ -1,0 +1,289 @@
+/**
+ * 吃什麼？ - 餐廳搜尋網站樣式表
+ * 包含深色/淺色模式切換及全站視覺設計
+ */
+
+/* 全局變數 */
+:root {
+    /* 淺色模式變數 */
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --accent-color: #ff9f43;
+    --background-color: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --hover-color: #f8f9fa;
+    --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    --navbar-bg: rgba(255, 255, 255, 0.95);
+    --navbar-text: #333333;
+    --footer-bg: #f8f9fa;
+    --rating-color: #ffc107;
+    --transition: all 0.3s ease;
+}
+
+/* 深色模式變數 */
+[data-theme="dark"] {
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --accent-color: #ff9f43;
+    --background-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333333;
+    --input-bg: #2c2c2c;
+    --input-border: #444444;
+    --hover-color: #333333;
+    --shadow: 0 .5rem 1rem rgba(0, 0, 0, .5);
+    --navbar-bg: rgba(30, 30, 30, 0.95);
+    --navbar-text: #e0e0e0;
+    --footer-bg: #1a1a1a;
+    --rating-color: #ffc107;
+}
+
+/* 基本樣式 */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: var(--transition);
+}
+
+/* 導航欄 */
+.navbar {
+    background-color: var(--navbar-bg);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--primary-color) !important;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--navbar-text) !important;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-color) !important;
+}
+
+/* 頁面區塊 */
+section {
+    padding: 80px 0;
+    min-height: 100vh;
+}
+
+/* 搜尋卡片 */
+.search-card {
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 15px;
+    transition: var(--transition);
+}
+
+.search-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 表單元素 */
+.form-control, .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--input-bg);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 107, 0.25);
+}
+
+/* 按鈕樣式 */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #ff5252;
+    border-color: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+
+.btn-success {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transition: var(--transition);
+}
+
+.btn-success:hover, .btn-success:focus {
+    background-color: #3dbeb6;
+    border-color: #3dbeb6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(78, 205, 196, 0.3);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* 餐廳卡片 */
+.restaurant-card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.restaurant-img {
+    height: 180px;
+    object-fit: cover;
+}
+
+.restaurant-info {
+    padding: 1.5rem;
+}
+
+.restaurant-name {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-type {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.restaurant-rating {
+    margin-bottom: 1rem;
+}
+
+.rating-star {
+    color: var(--rating-color);
+}
+
+.restaurant-address, .restaurant-phone {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 載入動畫 */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin: 2rem;
+}
+
+/* 地圖容器 */
+.map-container {
+    height: 100vh;
+    width: 100%;
+}
+
+#map-sidebar {
+    background-color: var(--card-bg);
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.map-list-item {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.map-list-item:hover, .map-list-item.active {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* 隨機選擇模態 */
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 15px;
+}
+
+.modal-header, .modal-footer {
+    border-color: var(--border-color);
+}
+
+/* 頁腳 */
+.footer {
+    background-color: var(--footer-bg);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+/* 隨機選擇結果動畫 */
+@keyframes highlight {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 107, 107, 0);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 107, 107, 0);
+    }
+}
+
+.highlight-pick {
+    animation: highlight 1s ease-in-out;
+}
+
+/* 深色模式切換圖標 */
+#theme-toggle {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+#theme-toggle:hover {
+    background-color: var(--hover-color);
+}
