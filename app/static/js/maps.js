@@ -4,6 +4,7 @@ let markers = [];
 let currentInfoWindow = null;
 let placesService;
 let geocoder;
+let searchLocationMarker = null; // 新增：追踪搜尋位置的標記
 
 // 初始化地圖
 function initMap() {
@@ -45,6 +46,29 @@ async function searchNearbyRestaurants(address, type, radius) {
     try {
         // 先將地址轉換為座標
         const location = await geocodeAddress(address);
+        
+        // 清除舊的搜尋位置標記
+        if (searchLocationMarker) {
+            searchLocationMarker.setMap(null);
+        }
+        
+        // 在搜尋位置添加特殊標記
+        searchLocationMarker = new google.maps.Marker({
+            position: location,
+            map: map,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 12,
+                fillColor: "#4285F4",
+                fillOpacity: 0.7,
+                strokeColor: "#ffffff",
+                strokeWeight: 2
+            },
+            title: `搜尋位置: ${address}`
+        });
+        
+        // 將地圖中心移到搜尋位置
+        map.setCenter(location);
         
         // 搜尋參數
         const request = {
